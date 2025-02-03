@@ -286,7 +286,7 @@ func main() {
 
 	flag.Parse()
 
-	if *baseUrl == "" || *segUrl == "" {
+	if *baseUrl == "" && *segUrl == "" {
 		fmt.Println("Url not set!")
 		flag.Usage()
 		log.Fatal()
