@@ -25,10 +25,9 @@ type Chunk struct {
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func readWriteChunks(nameFile string, chunkChan chan Chunk, wg *sync.WaitGroup) {
+func readWriteChunks(nameFile string, lastChunkId int, chunkChan chan Chunk, wg *sync.WaitGroup) {
 	defer wg.Done()
 	var chunks []Chunk
-	var lastChunkId int
 	var needClear bool
 
 	ticker := time.NewTicker(5 * time.Second) // Тикер для проверки каждую секунду
@@ -316,7 +315,7 @@ func main() {
 		}
 
 		wgRW.Add(1)
-		go readWriteChunks(getNameFile(url), chunkChan, &wgRW)
+		go readWriteChunks(getNameFile(url), *startChunkId, chunkChan, &wgRW)
 
 		wg.Wait()
 		close(chunkChan)
